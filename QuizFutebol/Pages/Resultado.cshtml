@@ -1,0 +1,88 @@
+﻿@page
+@model ResultadoModel
+@{
+    ViewData["Title"] = "Resultado do Quiz";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .quiz-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .titulo-quiz {
+        color: #198754;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="quiz-container">
+    <h1 class="titulo-quiz">🏆 Resultado Final</h1>
+
+    <div class="text-center">
+        <div class="alert alert-success" role="alert">
+            <h2>Parabéns! Você completou o quiz!</h2>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Sua Pontuação</h3>
+                        <h1 class="display-4 text-success">@Model.QuizFinalizado.Pontuacao/@Model.QuizFinalizado.Perguntas.Count</h1>
+                        <p class="card-text">
+                            @{
+                                var percentual = Model.QuizFinalizado.Perguntas.Count > 0 ?
+                                (double)Model.QuizFinalizado.Pontuacao / Model.QuizFinalizado.Perguntas.Count * 100 : 0;
+                            }
+                            Você acertou @percentual.ToString("F0")% das perguntas!
+                        </p>
+
+                        @if (percentual >= 80)
+                        {
+                            <div class="alert alert-success">
+                                <strong>Excelente!</strong> Você é um verdadeiro conhecedor de futebol! ⚽
+                            </div>
+                        }
+                        else if (percentual >= 60)
+                        {
+                            <div class="alert alert-info">
+                                <strong>Muito bom!</strong> Você tem um bom conhecimento sobre futebol! 👍
+                            </div>
+                        }
+                        else if (percentual >= 40)
+                        {
+                            <div class="alert alert-warning">
+                                <strong>Razoável!</strong> Você pode melhorar seus conhecimentos! 📚
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Precisa estudar!</strong> Que tal assistir mais jogos? ⚽
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <form method="post">
+                <button type="submit" class="btn btn-success btn-lg">
+                    🔄 Jogar Novamente
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Quiz de Futebol";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .quiz-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .pergunta-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .opcao-btn {
+        margin: 10px 0;
+        width: 100%;
+        text-align: left;
+    }
+
+    .titulo-quiz {
+        color: #198754;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="quiz-container">
+    <h1 class="titulo-quiz">⚽ Quiz de Futebol</h1>
+
+    @if (Model.QuizAtual.Perguntas.Count > 0 && Model.QuizAtual.PerguntaAtual < Model.QuizAtual.Perguntas.Count)
+    {
+        <div class="mb-3">
+            <span><strong>Pergunta @(Model.QuizAtual.PerguntaAtual + 1) de @Model.QuizAtual.Perguntas.Count</strong></span>
+            <span class="float-end">Pontuação: @Model.QuizAtual.Pontuacao</span>
+        </div>
+
+        <div class="progress mb-4">
+            <div class="progress-bar bg-success" style="width: @((Model.QuizAtual.PerguntaAtual + 1) * 100 / Model.QuizAtual.Perguntas.Count)%"></div>
+        </div>
+
+        <div class="pergunta-card">
+            <h3 class="mb-4">@Model.QuizAtual.Perguntas[Model.QuizAtual.PerguntaAtual].Texto</h3>
+
+            <form method="post">
+                <div class="d-grid gap-2">
+                    <button type="submit" name="Resposta.RespostaSelecionada" value="A" class="btn btn-outline-primary opcao-btn">
+                        <strong>A)</strong> @Model.QuizAtual.Perguntas[Model.QuizAtual.PerguntaAtual].OpcaoA
+                    </button>
+                    <button type="submit" name="Resposta.RespostaSelecionada" value="B" class="btn btn-outline-primary opcao-btn">
+                        <strong>B)</strong> @Model.QuizAtual.Perguntas[Model.QuizAtual.PerguntaAtual].OpcaoB
+                    </button>
+                    <button type="submit" name="Resposta.RespostaSelecionada" value="C" class="btn btn-outline-primary opcao-btn">
+                        <strong>C)</strong> @Model.QuizAtual.Perguntas[Model.QuizAtual.PerguntaAtual].OpcaoC
+                    </button>
+                    <button type="submit" name="Resposta.RespostaSelecionada" value="D" class="btn btn-outline-primary opcao-btn">
+                        <strong>D)</strong> @Model.QuizAtual.Perguntas[Model.QuizAtual.PerguntaAtual].OpcaoD
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h2 class="mb-4">Bem-vindo ao Quiz de Futebol!</h2>
+            <p class="lead">Teste seus conhecimentos sobre futebol com 5 perguntas.</p>
+            <form method="post" asp-page-handler="Reiniciar">
+                <button type="submit" class="btn btn-success btn-lg">Iniciar Quiz</button>
+            </form>
+        </div>
+    }
+</div>
